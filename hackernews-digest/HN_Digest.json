@@ -6,8 +6,8 @@
       "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
       "position": [
-        -440,
-        -140
+        -640,
+        -500
       ],
       "id": "29bd75c6-1120-45e7-8214-37786a49f7d6",
       "name": "When clicking ‘Execute workflow’"
@@ -19,46 +19,27 @@
       "type": "n8n-nodes-base.limit",
       "typeVersion": 1,
       "position": [
-        340,
-        20
+        140,
+        -340
       ],
       "id": "eda48178-3666-477b-b985-4363452e619d",
       "name": "Limit"
     },
     {
       "parameters": {
-        "model": "deepseek/deepseek-chat-v3-0324:free",
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
-      "typeVersion": 1,
-      "position": [
-        1580,
-        -80
-      ],
-      "id": "3c66d813-84b1-40ec-996c-8d12fb1fcf51",
-      "name": "OpenRouter Chat Model",
-      "credentials": {
-        "openRouterApi": {
-          "id": "vRB7sfGjfzrzeVrr",
-          "name": "OpenRouter account"
-        }
-      }
-    },
-    {
-      "parameters": {
         "model": {
           "__rl": true,
+          "value": "gpt-4.1-mini-2025-04-14",
           "mode": "list",
-          "value": "gpt-4.1-mini"
+          "cachedResultName": "gpt-4.1-mini-2025-04-14"
         },
         "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        2000,
-        -60
+        2440,
+        -440
       ],
       "id": "ceb49e8b-958f-461b-bbe1-ac7c601c23f8",
       "name": "OpenAI Chat Model",
@@ -66,64 +47,6 @@
         "openAiApi": {
           "id": "b5EtzBrqzTKoVsEg",
           "name": "OpenAi account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "method": "POST",
-        "url": "=https://firecrawl.yanhong.ca/v1/scrape",
-        "sendBody": true,
-        "specifyBody": "json",
-        "jsonBody": "={\n  \"url\": \"{{ $json.link }}\",\n  \"formats\": [\"markdown\"]\n}",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
-      "position": [
-        1260,
-        -200
-      ],
-      "id": "c0a71752-cb58-4f80-a27b-c6bc26ccd1b0",
-      "name": "Get Article",
-      "retryOnFail": true,
-      "waitBetweenTries": 3000,
-      "onError": "continueErrorOutput"
-    },
-    {
-      "parameters": {
-        "url": "={{ $json.comments }}",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
-      "position": [
-        1220,
-        200
-      ],
-      "id": "828ef19d-23ea-4387-9467-ae2fac6df032",
-      "name": "Get Comments",
-      "retryOnFail": true,
-      "waitBetweenTries": 3000,
-      "onError": "continueErrorOutput"
-    },
-    {
-      "parameters": {
-        "model": "deepseek/deepseek-chat-v3-0324:free",
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
-      "typeVersion": 1,
-      "position": [
-        1780,
-        400
-      ],
-      "id": "7482a4a4-615c-4f38-8ae4-c96957425b7e",
-      "name": "OpenRouter Chat Model1",
-      "credentials": {
-        "openRouterApi": {
-          "id": "vRB7sfGjfzrzeVrr",
-          "name": "OpenRouter account"
         }
       }
     },
@@ -138,17 +61,18 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 2,
       "position": [
-        1560,
-        -280
+        2000,
+        -600
       ],
       "id": "d643ae06-68d5-418f-b5bc-1f6f7cd7cebd",
       "name": "AI Agent - Summarize Article",
-      "alwaysOutputData": false
+      "alwaysOutputData": false,
+      "onError": "continueErrorOutput"
     },
     {
       "parameters": {
         "promptType": "define",
-        "text": "={{ $json.markdown }}",
+        "text": "={{ $json.comments_markdown }}",
         "options": {
           "systemMessage": "You are an expert Hacker News comment summarizer.\n\nTask\nCreate a concise summary of the discussion by\n- Analyzing all comments\n- Identifying the most significant perspectives and insights\n- Selecting no more than 10 of the most relevant and impactful comments\n- Condensing each selected comment to its core message\n\nOutput Requirement\n- Present your summary as a series of single-tier bullet points (no sub-bullets)\n- Each bullet point should capture one key insight or perspective\n- The length of each summary point should be proportional to the original comment's length and complexity\n  - Longer, more complex comments deserve more detailed summaries\n  - Brief comments with simple points should have correspondingly brief summaries\n- Maintain a neutral tone\n- Do not include any meta-commentary about the summarization process\n- Do not reference \"comments\" or \"users\" in your summary - simply present the ideas directly\n- Aim for clarity and brevity while preserving the essential meaning\n- The total output should not exceed 32768 tokens.\n\nOverall Assessment\n- After the bullet points, include a short paragraph (3-5 sentences) that synthesizes the overall discussion\n- No heading or title for this section - simply start a new paragraph after the bullet points\n- Write in a natural, flowing style without meta-references like \"The conversation revealed...\" or \"The discussion highlights...\"\n- Begin directly with the substance of your observations about patterns, consensus points, and differing perspectives\n- Focus on identifying patterns and the broader conversation rather than reiterating specific points\n- Keep this assessment objective and balanced\n\nExample of desired output style:\n• Publishers offer value beyond funding and marketing, including expertise, connections, and credibility, which can be crucial for first-time developers.\n• Early Access is suitable for certain games, but a full launch was chosen here to avoid market saturation and capitalize on a clear vision.\n• Organic spread through trailers and sponsored streams was more effective than traditional marketing, emphasizing the importance of a strong, instantly understandable hook.\n\nPublishers offer significant value beyond just funding, particularly for first-time developers seeking industry connections and credibility. Marketing strategies vary widely, with organic approaches through trailers and streams proving more effective than traditional advertising when a game has a strong visual hook. Balancing personal commitments with development requires exceptional discipline, often drawing on skills developed in corporate environments. Most indie developers face the publisher question eventually, with the consensus leaning toward self-publishing unless specific value propositions are clearly defined in the contract.\n\nInput\nI'll provide you with a series of bullet points in markdown format, each representing a comment from a Hacker News discussion thread:"
         }
@@ -156,26 +80,28 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 2,
       "position": [
-        1760,
-        200
+        2000,
+        -240
       ],
       "id": "433ecb61-d8bc-452a-99f4-91f376d81145",
-      "name": "AI Agent - Summarize Comments"
+      "name": "AI Agent - Summarize Comments",
+      "onError": "continueErrorOutput"
     },
     {
       "parameters": {
         "model": {
           "__rl": true,
+          "value": "gpt-4.1-mini-2025-04-14",
           "mode": "list",
-          "value": "gpt-4.1-mini"
+          "cachedResultName": "gpt-4.1-mini-2025-04-14"
         },
         "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        2140,
-        400
+        2440,
+        -60
       ],
       "id": "551c3405-bb88-4a23-bf4e-3d5930685a1b",
       "name": "OpenAI Chat Model1",
@@ -197,11 +123,12 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 2,
       "position": [
-        1980,
-        -280
+        2420,
+        -600
       ],
       "id": "f2fc634d-321c-400e-a350-27e4719c9ce8",
-      "name": "AI Agent - Translate Article"
+      "name": "AI Agent - Translate Article",
+      "onError": "continueErrorOutput"
     },
     {
       "parameters": {
@@ -214,11 +141,12 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 2,
       "position": [
-        2120,
-        200
+        2420,
+        -240
       ],
       "id": "b55278db-bc55-48a7-b7d1-a5bbc7f7c4a3",
-      "name": "AI Agent - Translate Comments"
+      "name": "AI Agent - Translate Comments",
+      "onError": "continueErrorOutput"
     },
     {
       "parameters": {
@@ -229,6 +157,12 @@
               "name": "comment_sum",
               "value": "={{ $json.output }}",
               "type": "string"
+            },
+            {
+              "id": "a70442d0-de96-4db0-81d6-c8ca9dc2f240",
+              "name": "guid_key",
+              "value": "={{ Number($(\"merge_article_comments\").item.json.guid_key) }}",
+              "type": "number"
             }
           ]
         },
@@ -237,8 +171,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        2440,
-        200
+        2820,
+        -320
       ],
       "id": "c73dcc09-47c7-4512-875b-924667404b4d",
       "name": "Comment Field Mapping"
@@ -252,6 +186,12 @@
               "name": "article_sum",
               "value": "={{ $json.output }}",
               "type": "string"
+            },
+            {
+              "id": "9ff1b90d-e5f0-4ef9-8df6-a6ef6a6c17bf",
+              "name": "guid_key",
+              "value": "={{ Number($(\"merge_article_comments\").item.json.guid_key) }}",
+              "type": "number"
             }
           ]
         },
@@ -260,8 +200,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        2400,
-        -200
+        2820,
+        -520
       ],
       "id": "cfaa9ff7-b453-4386-883d-84000fee2290",
       "name": "Article Field Mapping"
@@ -269,14 +209,14 @@
     {
       "parameters": {
         "operation": "executeQuery",
-        "query": "SELECT EXISTS(SELECT 1 FROM hn_guid WHERE guid = {{ $json.guid.split(\"id=\")[1] }} );\n",
+        "query": "SELECT EXISTS(SELECT 1 FROM hn_guid WHERE guid = {{ $json.guid_key }} );\n",
         "options": {}
       },
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.6,
       "position": [
-        540,
-        -100
+        340,
+        -460
       ],
       "id": "7002ad27-d6aa-4d5a-9be2-1c7302076418",
       "name": "Check HN guid",
@@ -287,6 +227,312 @@
         }
       },
       "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        520,
+        -340
+      ],
+      "id": "ee7391b9-391d-49d2-8ba6-64236c38cd74",
+      "name": "Combine HN guid exists"
+    },
+    {
+      "parameters": {
+        "chatId": "-4877294576",
+        "text": "={{ \"📰\\n\" + $(\"merge_article_comments\").item.json.title + \"\\n\" + $(\"merge_article_comments\").item.json.link + \"\\n\\n\" + $json.article_sum + \"\\n\\n评论精选\\n\" + $json.comment_sum }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        3280,
+        -420
+      ],
+      "id": "fb730479-d12b-4d10-aa31-20ed45d04fc6",
+      "name": "Send to Telegram",
+      "webhookId": "e9994188-98a7-431d-b3c0-547350044564",
+      "credentials": {
+        "telegramApi": {
+          "id": "mkrZ8uUsqY929hjA",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "fieldsToMatchString": "guid_key",
+        "joinMode": "enrichInput1",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        3060,
+        -420
+      ],
+      "id": "62324876-1fab-4751-9320-38b09aa7c1f8",
+      "name": "Combine Article and Comments"
+    },
+    {
+      "parameters": {
+        "schema": {
+          "__rl": true,
+          "value": "public",
+          "mode": "list",
+          "cachedResultName": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "hn_guid",
+          "mode": "list",
+          "cachedResultName": "hn_guid"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "guid": "={{ $json.guid_key }}"
+          },
+          "matchingColumns": [
+            "guid"
+          ],
+          "schema": [
+            {
+              "id": "guid",
+              "displayName": "guid",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        3280,
+        -220
+      ],
+      "id": "5c187c84-b4d1-47c7-b5ac-eca6c0cc2ca7",
+      "name": "Add Processed Items to DB",
+      "credentials": {
+        "postgres": {
+          "id": "r0QDEfnmgjj0Es3L",
+          "name": "Postgres account"
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "operation": "extractHtmlContent",
+        "extractionValues": {
+          "values": [
+            {
+              "key": "comments",
+              "cssSelector": ".commtext.c00",
+              "returnArray": true
+            }
+          ]
+        },
+        "options": {
+          "trimValues": true,
+          "cleanUpText": true
+        }
+      },
+      "type": "n8n-nodes-base.html",
+      "typeVersion": 1.2,
+      "position": [
+        1220,
+        -180
+      ],
+      "id": "9b60a0a2-4aa1-439a-90ec-f580a4bfade6",
+      "name": "Extract Comments",
+      "alwaysOutputData": false,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Add a new field called 'markdown' to the JSON of the item\n$input.item.json.comments_markdown = $json.comments.map(comment => `- ${comment}`).join('\\n');\n// Add a new field called 'guid_key' to the JSON of the item\n// $input.item.json.guid_key = Number($(\"Get Comments\").item.json.data.match(/item\\?id=(\\d+)/)[1])\n$input.item.json.guid_key = $(\"process_new_posts_only\").item.json.guid_key;\nreturn $input.item;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1460,
+        -180
+      ],
+      "id": "7755fc4d-12a8-4fcf-9f20-2d85bafbee0b",
+      "name": "Comments to MD"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Add a new field called 'myNewField' to the JSON of the item\n$input.item.json.num_points = Number($json.contentSnippet.match(/Points:\\s*(\\d+)/)?.[1]);\n$input.item.json.num_comments = Number($json.contentSnippet.match(/Comments:\\s*(\\d+)/)?.[1]);\n$input.item.json.guid_key = Number($json.guid.split(\"id=\")[1]);\nreturn $input.item;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -220,
+        -340
+      ],
+      "id": "98e1c700-ba02-493a-a068-a45cfc7563e3",
+      "name": "Add Points and Comments"
+    },
+    {
+      "parameters": {
+        "url": "https://hnrss.org/frontpage?count=50",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.2,
+      "position": [
+        -440,
+        -340
+      ],
+      "id": "622f31d6-15b0-46f9-970f-2a66318fe27d",
+      "name": "HN Frontpage",
+      "notesInFlow": false,
+      "notes": "Get the posts that have appeared on the front page."
+    },
+    {
+      "parameters": {
+        "sortFieldsUi": {
+          "sortField": [
+            {
+              "fieldName": "num_points",
+              "order": "descending"
+            },
+            {
+              "fieldName": "num_comments",
+              "order": "descending"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.sort",
+      "typeVersion": 1,
+      "position": [
+        -40,
+        -340
+      ],
+      "id": "328c94e1-e512-4781-adc3-0d1ae7d6b4cf",
+      "name": "Sort by Points and Comments"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "hoursInterval": 6,
+              "triggerAtMinute": 33
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -640,
+        -220
+      ],
+      "id": "df5237b2-d98c-43f6-92aa-ecc26634aa2f",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://firecrawl.yanhong.ca/v1/scrape",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"url\": \"{{ $json.link }}\",\n  \"formats\": [\"markdown\"]\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        980,
+        -520
+      ],
+      "id": "fbb81120-8520-40ac-ac67-01ecaa503466",
+      "name": "Get Article",
+      "retryOnFail": true,
+      "waitBetweenTries": 3000,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.comments }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        980,
+        -180
+      ],
+      "id": "1aa5670e-59d4-44cd-a942-c12a8fabc503",
+      "name": "Get Comments",
+      "retryOnFail": true,
+      "waitBetweenTries": 3000,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "advanced": true,
+        "mergeByFields": {
+          "values": [
+            {
+              "field1": "data.metadata.url",
+              "field2": "link"
+            }
+          ]
+        },
+        "joinMode": "enrichInput1",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        1460,
+        -520
+      ],
+      "id": "95047850-94d3-4b79-9080-3beaf06265be",
+      "name": "Add guid to Article",
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "fieldsToMatchString": "guid_key",
+        "joinMode": "enrichInput1",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        1700,
+        -340
+      ],
+      "id": "11df54de-f275-40d2-9981-b3adfac0937a",
+      "name": "merge_article_comments",
+      "onError": "continueErrorOutput"
     },
     {
       "parameters": {
@@ -316,235 +562,61 @@
       "type": "n8n-nodes-base.filter",
       "typeVersion": 2.2,
       "position": [
-        920,
-        20
+        720,
+        -340
       ],
       "id": "f188e175-1e66-488e-af88-7d339fd21b7f",
-      "name": "Discard Processed Items"
+      "name": "process_new_posts_only"
     },
     {
       "parameters": {
-        "mode": "combine",
-        "combineBy": "combineByPosition",
+        "model": {
+          "__rl": true,
+          "value": "gpt-4.1-mini-2025-04-14",
+          "mode": "list",
+          "cachedResultName": "gpt-4.1-mini-2025-04-14"
+        },
         "options": {}
       },
-      "type": "n8n-nodes-base.merge",
-      "typeVersion": 3.2,
-      "position": [
-        720,
-        20
-      ],
-      "id": "ee7391b9-391d-49d2-8ba6-64236c38cd74",
-      "name": "Combine HN guid exists"
-    },
-    {
-      "parameters": {
-        "chatId": "-4877294576",
-        "text": "={{ $json.title + \"\\n\" + $json.link + \"\\n\\n\" + $json.article_sum + \"\\n\\n评论精选\\n\" + $json.comment_sum }}",
-        "additionalFields": {}
-      },
-      "type": "n8n-nodes-base.telegram",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        2840,
-        -80
+        2000,
+        -440
       ],
-      "id": "fb730479-d12b-4d10-aa31-20ed45d04fc6",
-      "name": "Send to Telegram",
-      "webhookId": "e9994188-98a7-431d-b3c0-547350044564",
+      "id": "736d86e8-fcbd-4fd7-806e-ec0d614b91ce",
+      "name": "OpenAI Sum Article",
       "credentials": {
-        "telegramApi": {
-          "id": "mkrZ8uUsqY929hjA",
-          "name": "Telegram account"
+        "openAiApi": {
+          "id": "b5EtzBrqzTKoVsEg",
+          "name": "OpenAi account"
         }
       }
     },
     {
       "parameters": {
-        "mode": "combine",
-        "combineBy": "combineByPosition",
-        "numberInputs": 3,
-        "options": {}
-      },
-      "type": "n8n-nodes-base.merge",
-      "typeVersion": 3.2,
-      "position": [
-        2620,
-        0
-      ],
-      "id": "62324876-1fab-4751-9320-38b09aa7c1f8",
-      "name": "Combine Article and Comments"
-    },
-    {
-      "parameters": {
-        "schema": {
+        "model": {
           "__rl": true,
-          "value": "public",
+          "value": "gpt-4.1-2025-04-14",
           "mode": "list",
-          "cachedResultName": "public"
-        },
-        "table": {
-          "__rl": true,
-          "value": "hn_guid",
-          "mode": "list",
-          "cachedResultName": "hn_guid"
-        },
-        "columns": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "guid": "={{ $json.guid.split(\"id=\")[1] }}"
-          },
-          "matchingColumns": [
-            "guid"
-          ],
-          "schema": [
-            {
-              "id": "guid",
-              "displayName": "guid",
-              "required": true,
-              "defaultMatch": false,
-              "display": true,
-              "type": "number",
-              "canBeUsedToMatch": true,
-              "removed": false
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": false
+          "cachedResultName": "gpt-4.1-2025-04-14"
         },
         "options": {}
       },
-      "type": "n8n-nodes-base.postgres",
-      "typeVersion": 2.6,
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
       "position": [
-        2840,
-        120
+        2000,
+        -60
       ],
-      "id": "5c187c84-b4d1-47c7-b5ac-eca6c0cc2ca7",
-      "name": "Add Processed Items to DB",
+      "id": "27869430-5bd6-421d-8be9-fa3fb0673429",
+      "name": "OpenAI Sum Comments",
       "credentials": {
-        "postgres": {
-          "id": "r0QDEfnmgjj0Es3L",
-          "name": "Postgres account"
+        "openAiApi": {
+          "id": "b5EtzBrqzTKoVsEg",
+          "name": "OpenAi account"
         }
-      },
-      "onError": "continueRegularOutput"
-    },
-    {
-      "parameters": {
-        "operation": "extractHtmlContent",
-        "extractionValues": {
-          "values": [
-            {
-              "key": "comments",
-              "cssSelector": ".commtext.c00",
-              "returnArray": true
-            }
-          ]
-        },
-        "options": {
-          "trimValues": true,
-          "cleanUpText": true
-        }
-      },
-      "type": "n8n-nodes-base.html",
-      "typeVersion": 1.2,
-      "position": [
-        1420,
-        200
-      ],
-      "id": "9b60a0a2-4aa1-439a-90ec-f580a4bfade6",
-      "name": "Extract Comments"
-    },
-    {
-      "parameters": {
-        "mode": "runOnceForEachItem",
-        "jsCode": "// Add a new field called 'myNewField' to the JSON of the item\n$input.item.json.markdown = $json.comments.map(comment => `- ${comment}`).join('\\n');\nreturn $input.item;"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        1600,
-        200
-      ],
-      "id": "7755fc4d-12a8-4fcf-9f20-2d85bafbee0b",
-      "name": "Comments to MD"
-    },
-    {
-      "parameters": {
-        "mode": "runOnceForEachItem",
-        "jsCode": "// Add a new field called 'myNewField' to the JSON of the item\n$input.item.json.num_points = Number($json.contentSnippet.match(/Points:\\s*(\\d+)/)?.[1]);\n$input.item.json.num_comments = Number($json.contentSnippet.match(/Comments:\\s*(\\d+)/)?.[1]);\nreturn $input.item;"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        -20,
-        20
-      ],
-      "id": "98e1c700-ba02-493a-a068-a45cfc7563e3",
-      "name": "Add Points and Comments"
-    },
-    {
-      "parameters": {
-        "url": "https://hnrss.org/frontpage?count=50",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.rssFeedRead",
-      "typeVersion": 1.2,
-      "position": [
-        -240,
-        20
-      ],
-      "id": "622f31d6-15b0-46f9-970f-2a66318fe27d",
-      "name": "HN Frontpage",
-      "notesInFlow": false,
-      "notes": "Get the posts that have appeared on the front page."
-    },
-    {
-      "parameters": {
-        "sortFieldsUi": {
-          "sortField": [
-            {
-              "fieldName": "num_points",
-              "order": "descending"
-            },
-            {
-              "fieldName": "num_comments",
-              "order": "descending"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.sort",
-      "typeVersion": 1,
-      "position": [
-        160,
-        20
-      ],
-      "id": "328c94e1-e512-4781-adc3-0d1ae7d6b4cf",
-      "name": "Sort by Points and Comments"
-    },
-    {
-      "parameters": {
-        "rule": {
-          "interval": [
-            {
-              "field": "hours",
-              "hoursInterval": 8,
-              "triggerAtMinute": 33
-            }
-          ]
-        }
-      },
-      "type": "n8n-nodes-base.scheduleTrigger",
-      "typeVersion": 1.2,
-      "position": [
-        -440,
-        140
-      ],
-      "id": "df5237b2-d98c-43f6-92aa-ecc26634aa2f",
-      "name": "Schedule Trigger"
+      }
     }
   ],
   "pinData": {},
@@ -576,55 +648,11 @@
         ]
       ]
     },
-    "OpenRouter Chat Model": {
-      "ai_languageModel": [
-        [
-          {
-            "node": "AI Agent - Summarize Article",
-            "type": "ai_languageModel",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "OpenAI Chat Model": {
       "ai_languageModel": [
         [
           {
             "node": "AI Agent - Translate Article",
-            "type": "ai_languageModel",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Get Article": {
-      "main": [
-        [
-          {
-            "node": "AI Agent - Summarize Article",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Get Comments": {
-      "main": [
-        [
-          {
-            "node": "Extract Comments",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "OpenRouter Chat Model1": {
-      "ai_languageModel": [
-        [
-          {
-            "node": "AI Agent - Summarize Comments",
             "type": "ai_languageModel",
             "index": 0
           }
@@ -719,32 +747,11 @@
         ]
       ]
     },
-    "Discard Processed Items": {
-      "main": [
-        [
-          {
-            "node": "Get Article",
-            "type": "main",
-            "index": 0
-          },
-          {
-            "node": "Get Comments",
-            "type": "main",
-            "index": 0
-          },
-          {
-            "node": "Combine Article and Comments",
-            "type": "main",
-            "index": 2
-          }
-        ]
-      ]
-    },
     "Combine HN guid exists": {
       "main": [
         [
           {
-            "node": "Discard Processed Items",
+            "node": "process_new_posts_only",
             "type": "main",
             "index": 0
           }
@@ -787,9 +794,9 @@
       "main": [
         [
           {
-            "node": "AI Agent - Summarize Comments",
+            "node": "merge_article_comments",
             "type": "main",
-            "index": 0
+            "index": 1
           }
         ]
       ]
@@ -837,6 +844,98 @@
           }
         ]
       ]
+    },
+    "Get Article": {
+      "main": [
+        [
+          {
+            "node": "Add guid to Article",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Comments": {
+      "main": [
+        [
+          {
+            "node": "Extract Comments",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add guid to Article": {
+      "main": [
+        [
+          {
+            "node": "merge_article_comments",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "merge_article_comments": {
+      "main": [
+        [
+          {
+            "node": "AI Agent - Summarize Article",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "AI Agent - Summarize Comments",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "process_new_posts_only": {
+      "main": [
+        [
+          {
+            "node": "Get Article",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get Comments",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Add guid to Article",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "OpenAI Sum Article": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent - Summarize Article",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Sum Comments": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent - Summarize Comments",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": false,
@@ -844,9 +943,9 @@
     "executionOrder": "v1",
     "timezone": "America/Edmonton",
     "callerPolicy": "workflowsFromSameOwner",
-    "executionTimeout": 900
+    "executionTimeout": 1800
   },
-  "versionId": "1322b4e2-79f1-4701-9a54-803c9c731610",
+  "versionId": "7b2ff016-ca25-47fb-80c3-104a8224168f",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "1d69bff3c9b0e719648a85e01532acc864f1b907a554b1944bda495df4ffcf66"
@@ -854,10 +953,10 @@
   "id": "8DyW4c1FMNqM6vL6",
   "tags": [
     {
-      "name": "digest",
-      "id": "H2C8Kiu2BwbwGYtL",
       "createdAt": "2025-06-30T09:11:45.433Z",
-      "updatedAt": "2025-06-30T09:11:45.433Z"
+      "updatedAt": "2025-06-30T09:11:45.433Z",
+      "id": "H2C8Kiu2BwbwGYtL",
+      "name": "digest"
     }
   ]
 }
