@@ -1,0 +1,863 @@
+{
+  "name": "HN Digest",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -440,
+        -140
+      ],
+      "id": "29bd75c6-1120-45e7-8214-37786a49f7d6",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "maxItems": 10
+      },
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        340,
+        20
+      ],
+      "id": "eda48178-3666-477b-b985-4363452e619d",
+      "name": "Limit"
+    },
+    {
+      "parameters": {
+        "model": "deepseek/deepseek-chat-v3-0324:free",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        1580,
+        -80
+      ],
+      "id": "3c66d813-84b1-40ec-996c-8d12fb1fcf51",
+      "name": "OpenRouter Chat Model",
+      "credentials": {
+        "openRouterApi": {
+          "id": "vRB7sfGjfzrzeVrr",
+          "name": "OpenRouter account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        2000,
+        -60
+      ],
+      "id": "ceb49e8b-958f-461b-bbe1-ac7c601c23f8",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "b5EtzBrqzTKoVsEg",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://firecrawl.yanhong.ca/v1/scrape",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"url\": \"{{ $json.link }}\",\n  \"formats\": [\"markdown\"]\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1260,
+        -200
+      ],
+      "id": "c0a71752-cb58-4f80-a27b-c6bc26ccd1b0",
+      "name": "Get Article",
+      "retryOnFail": true,
+      "waitBetweenTries": 3000,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.comments }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1220,
+        200
+      ],
+      "id": "828ef19d-23ea-4387-9467-ae2fac6df032",
+      "name": "Get Comments",
+      "retryOnFail": true,
+      "waitBetweenTries": 3000,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "model": "deepseek/deepseek-chat-v3-0324:free",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        1780,
+        400
+      ],
+      "id": "7482a4a4-615c-4f38-8ae4-c96957425b7e",
+      "name": "OpenRouter Chat Model1",
+      "credentials": {
+        "openRouterApi": {
+          "id": "vRB7sfGjfzrzeVrr",
+          "name": "OpenRouter account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.data.markdown }}",
+        "options": {
+          "systemMessage": "You are an expert article summarizer. Your task is to create a comprehensive yet concise summary of the provided article that captures its key points, main arguments, and significant details.\n\nOutput Requirements:\nCreate a summary with the following characteristics:\n- Please go directly into the content without any introductory phrases.\n- Don't include statements like \"Here's a summary...\" or references to guidelines. Begin immediately with the substantive information.\n- 3 to 7 paragraphs in length, with the number of paragraphs proportional to the article's size and complexity\n- Maintain the original tone and perspective of the article\n- Preserve important terminology and concepts specific to the subject matter\n- Use clear transitions between paragraphs to ensure flow and readability\n- Write in a natural, conversational style. Avoid academic framing phrases like \"The central argument is...\" or \"In conclusion...\"\n- Present the information as a flowing narrative of connected thoughts. Imagine you're explaining this to someone in a casual but informative conversation rather than writing a formal analysis.\n- The total output should not exceed 32768 tokens.\n\nNotes:\n- Do not insert your own opinions or additional information not found in the original text\n- Avoid overly simplifying complex topics while still making them accessible\n- Ensure each paragraph has a clear focus and purpose within the summary\n- For longer, more complex articles, use closer to 7 paragraphs; for shorter, simpler articles, use closer to 3 paragraphs\n- Your summary should allow readers to understand the complete essence of the article without reading the original\n\nInput:\nYou will be provided with a markdown file.\n- Identify the main article content within the markdown file\n- Ignore comments, navigation elements, advertisements, and other non-article content\n- Ignore everything after \"New Yorker Favorites\", \"To stay on top of the biggest stories in business and technology, sign up\"\nThis is the article in markdown format:"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        1560,
+        -280
+      ],
+      "id": "d643ae06-68d5-418f-b5bc-1f6f7cd7cebd",
+      "name": "AI Agent - Summarize Article",
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.markdown }}",
+        "options": {
+          "systemMessage": "You are an expert Hacker News comment summarizer.\n\nTask\nCreate a concise summary of the discussion by\n- Analyzing all comments\n- Identifying the most significant perspectives and insights\n- Selecting no more than 10 of the most relevant and impactful comments\n- Condensing each selected comment to its core message\n\nOutput Requirement\n- Present your summary as a series of single-tier bullet points (no sub-bullets)\n- Each bullet point should capture one key insight or perspective\n- The length of each summary point should be proportional to the original comment's length and complexity\n  - Longer, more complex comments deserve more detailed summaries\n  - Brief comments with simple points should have correspondingly brief summaries\n- Maintain a neutral tone\n- Do not include any meta-commentary about the summarization process\n- Do not reference \"comments\" or \"users\" in your summary - simply present the ideas directly\n- Aim for clarity and brevity while preserving the essential meaning\n- The total output should not exceed 32768 tokens.\n\nOverall Assessment\n- After the bullet points, include a short paragraph (3-5 sentences) that synthesizes the overall discussion\n- No heading or title for this section - simply start a new paragraph after the bullet points\n- Write in a natural, flowing style without meta-references like \"The conversation revealed...\" or \"The discussion highlights...\"\n- Begin directly with the substance of your observations about patterns, consensus points, and differing perspectives\n- Focus on identifying patterns and the broader conversation rather than reiterating specific points\n- Keep this assessment objective and balanced\n\nExample of desired output style:\n• Publishers offer value beyond funding and marketing, including expertise, connections, and credibility, which can be crucial for first-time developers.\n• Early Access is suitable for certain games, but a full launch was chosen here to avoid market saturation and capitalize on a clear vision.\n• Organic spread through trailers and sponsored streams was more effective than traditional marketing, emphasizing the importance of a strong, instantly understandable hook.\n\nPublishers offer significant value beyond just funding, particularly for first-time developers seeking industry connections and credibility. Marketing strategies vary widely, with organic approaches through trailers and streams proving more effective than traditional advertising when a game has a strong visual hook. Balancing personal commitments with development requires exceptional discipline, often drawing on skills developed in corporate environments. Most indie developers face the publisher question eventually, with the consensus leaning toward self-publishing unless specific value propositions are clearly defined in the contract.\n\nInput\nI'll provide you with a series of bullet points in markdown format, each representing a comment from a Hacker News discussion thread:"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        1760,
+        200
+      ],
+      "id": "433ecb61-d8bc-452a-99f4-91f376d81145",
+      "name": "AI Agent - Summarize Comments"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        2140,
+        400
+      ],
+      "id": "551c3405-bb88-4a23-bf4e-3d5930685a1b",
+      "name": "OpenAI Chat Model1",
+      "credentials": {
+        "openAiApi": {
+          "id": "b5EtzBrqzTKoVsEg",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Translate into Chinese: {{ $json.output }} ",
+        "options": {
+          "systemMessage": "Role:\nYou are an expert English to Chinese translator.\n\nRules:\n1. Ensuring accuracy and fidelity to the original news facts and context.\n2. All English proper nouns (names, places, terms) will be retained in English.\n3. No information will be omitted, and the translation will be direct and comprehensive.\n4. Never, ever translate names, places, terms into Chinese."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        1980,
+        -280
+      ],
+      "id": "f2fc634d-321c-400e-a350-27e4719c9ce8",
+      "name": "AI Agent - Translate Article"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Translate {{ $json.output }} into Chinese",
+        "options": {
+          "systemMessage": "Role:\nYou are an expert English to Chinese translator.\n\nRules:\n1. Ensuring accuracy and fidelity to the original news facts and context.\n2. All English proper nouns (names, places, terms) will be retained in English.\n3. No information will be omitted, and the translation will be direct and comprehensive.\n4. Never, ever translate names, places, terms into Chinese."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        2120,
+        200
+      ],
+      "id": "b55278db-bc55-48a7-b7d1-a5bbc7f7c4a3",
+      "name": "AI Agent - Translate Comments"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "48fc7b25-0a00-4d58-bdb6-25e28ca5bebb",
+              "name": "comment_sum",
+              "value": "={{ $json.output }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2440,
+        200
+      ],
+      "id": "c73dcc09-47c7-4512-875b-924667404b4d",
+      "name": "Comment Field Mapping"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "48fc7b25-0a00-4d58-bdb6-25e28ca5bebb",
+              "name": "article_sum",
+              "value": "={{ $json.output }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2400,
+        -200
+      ],
+      "id": "cfaa9ff7-b453-4386-883d-84000fee2290",
+      "name": "Article Field Mapping"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT EXISTS(SELECT 1 FROM hn_guid WHERE guid = {{ $json.guid.split(\"id=\")[1] }} );\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        540,
+        -100
+      ],
+      "id": "7002ad27-d6aa-4d5a-9be2-1c7302076418",
+      "name": "Check HN guid",
+      "credentials": {
+        "postgres": {
+          "id": "r0QDEfnmgjj0Es3L",
+          "name": "Postgres account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "4a2b55bc-63f4-41ee-9dc9-326c91f2d809",
+              "leftValue": "={{ $json.exists }}",
+              "rightValue": "false",
+              "operator": {
+                "type": "boolean",
+                "operation": "false",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        920,
+        20
+      ],
+      "id": "f188e175-1e66-488e-af88-7d339fd21b7f",
+      "name": "Discard Processed Items"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        720,
+        20
+      ],
+      "id": "ee7391b9-391d-49d2-8ba6-64236c38cd74",
+      "name": "Combine HN guid exists"
+    },
+    {
+      "parameters": {
+        "chatId": "-4877294576",
+        "text": "={{ $json.title + \"\\n\" + $json.link + \"\\n\\n\" + $json.article_sum + \"\\n\\n评论精选\\n\" + $json.comment_sum }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        2840,
+        -80
+      ],
+      "id": "fb730479-d12b-4d10-aa31-20ed45d04fc6",
+      "name": "Send to Telegram",
+      "webhookId": "e9994188-98a7-431d-b3c0-547350044564",
+      "credentials": {
+        "telegramApi": {
+          "id": "mkrZ8uUsqY929hjA",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "numberInputs": 3,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        2620,
+        0
+      ],
+      "id": "62324876-1fab-4751-9320-38b09aa7c1f8",
+      "name": "Combine Article and Comments"
+    },
+    {
+      "parameters": {
+        "schema": {
+          "__rl": true,
+          "value": "public",
+          "mode": "list",
+          "cachedResultName": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "hn_guid",
+          "mode": "list",
+          "cachedResultName": "hn_guid"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "guid": "={{ $json.guid.split(\"id=\")[1] }}"
+          },
+          "matchingColumns": [
+            "guid"
+          ],
+          "schema": [
+            {
+              "id": "guid",
+              "displayName": "guid",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        2840,
+        120
+      ],
+      "id": "5c187c84-b4d1-47c7-b5ac-eca6c0cc2ca7",
+      "name": "Add Processed Items to DB",
+      "credentials": {
+        "postgres": {
+          "id": "r0QDEfnmgjj0Es3L",
+          "name": "Postgres account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "operation": "extractHtmlContent",
+        "extractionValues": {
+          "values": [
+            {
+              "key": "comments",
+              "cssSelector": ".commtext.c00",
+              "returnArray": true
+            }
+          ]
+        },
+        "options": {
+          "trimValues": true,
+          "cleanUpText": true
+        }
+      },
+      "type": "n8n-nodes-base.html",
+      "typeVersion": 1.2,
+      "position": [
+        1420,
+        200
+      ],
+      "id": "9b60a0a2-4aa1-439a-90ec-f580a4bfade6",
+      "name": "Extract Comments"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Add a new field called 'myNewField' to the JSON of the item\n$input.item.json.markdown = $json.comments.map(comment => `- ${comment}`).join('\\n');\nreturn $input.item;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1600,
+        200
+      ],
+      "id": "7755fc4d-12a8-4fcf-9f20-2d85bafbee0b",
+      "name": "Comments to MD"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Add a new field called 'myNewField' to the JSON of the item\n$input.item.json.num_points = Number($json.contentSnippet.match(/Points:\\s*(\\d+)/)?.[1]);\n$input.item.json.num_comments = Number($json.contentSnippet.match(/Comments:\\s*(\\d+)/)?.[1]);\nreturn $input.item;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -20,
+        20
+      ],
+      "id": "98e1c700-ba02-493a-a068-a45cfc7563e3",
+      "name": "Add Points and Comments"
+    },
+    {
+      "parameters": {
+        "url": "https://hnrss.org/frontpage?count=50",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.2,
+      "position": [
+        -240,
+        20
+      ],
+      "id": "622f31d6-15b0-46f9-970f-2a66318fe27d",
+      "name": "HN Frontpage",
+      "notesInFlow": false,
+      "notes": "Get the posts that have appeared on the front page."
+    },
+    {
+      "parameters": {
+        "sortFieldsUi": {
+          "sortField": [
+            {
+              "fieldName": "num_points",
+              "order": "descending"
+            },
+            {
+              "fieldName": "num_comments",
+              "order": "descending"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.sort",
+      "typeVersion": 1,
+      "position": [
+        160,
+        20
+      ],
+      "id": "328c94e1-e512-4781-adc3-0d1ae7d6b4cf",
+      "name": "Sort by Points and Comments"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "hoursInterval": 8,
+              "triggerAtMinute": 33
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -440,
+        140
+      ],
+      "id": "df5237b2-d98c-43f6-92aa-ecc26634aa2f",
+      "name": "Schedule Trigger"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "HN Frontpage",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limit": {
+      "main": [
+        [
+          {
+            "node": "Check HN guid",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Combine HN guid exists",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent - Summarize Article",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent - Translate Article",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Article": {
+      "main": [
+        [
+          {
+            "node": "AI Agent - Summarize Article",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Comments": {
+      "main": [
+        [
+          {
+            "node": "Extract Comments",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent - Summarize Comments",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent - Summarize Article": {
+      "main": [
+        [
+          {
+            "node": "AI Agent - Translate Article",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent - Summarize Comments": {
+      "main": [
+        [
+          {
+            "node": "AI Agent - Translate Comments",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent - Translate Comments",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent - Translate Article": {
+      "main": [
+        [
+          {
+            "node": "Article Field Mapping",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent - Translate Comments": {
+      "main": [
+        [
+          {
+            "node": "Comment Field Mapping",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Comment Field Mapping": {
+      "main": [
+        [
+          {
+            "node": "Combine Article and Comments",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Article Field Mapping": {
+      "main": [
+        [
+          {
+            "node": "Combine Article and Comments",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check HN guid": {
+      "main": [
+        [
+          {
+            "node": "Combine HN guid exists",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Discard Processed Items": {
+      "main": [
+        [
+          {
+            "node": "Get Article",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get Comments",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Combine Article and Comments",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "Combine HN guid exists": {
+      "main": [
+        [
+          {
+            "node": "Discard Processed Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Combine Article and Comments": {
+      "main": [
+        [
+          {
+            "node": "Add Processed Items to DB",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Send to Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add Processed Items to DB": {
+      "main": [
+        []
+      ]
+    },
+    "Extract Comments": {
+      "main": [
+        [
+          {
+            "node": "Comments to MD",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Comments to MD": {
+      "main": [
+        [
+          {
+            "node": "AI Agent - Summarize Comments",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add Points and Comments": {
+      "main": [
+        [
+          {
+            "node": "Sort by Points and Comments",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HN Frontpage": {
+      "main": [
+        [
+          {
+            "node": "Add Points and Comments",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sort by Points and Comments": {
+      "main": [
+        [
+          {
+            "node": "Limit",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "HN Frontpage",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "America/Edmonton",
+    "callerPolicy": "workflowsFromSameOwner",
+    "executionTimeout": 900
+  },
+  "versionId": "1322b4e2-79f1-4701-9a54-803c9c731610",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "1d69bff3c9b0e719648a85e01532acc864f1b907a554b1944bda495df4ffcf66"
+  },
+  "id": "8DyW4c1FMNqM6vL6",
+  "tags": [
+    {
+      "name": "digest",
+      "id": "H2C8Kiu2BwbwGYtL",
+      "createdAt": "2025-06-30T09:11:45.433Z",
+      "updatedAt": "2025-06-30T09:11:45.433Z"
+    }
+  ]
+}
