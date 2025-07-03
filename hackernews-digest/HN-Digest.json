@@ -19,7 +19,7 @@
       "type": "n8n-nodes-base.limit",
       "typeVersion": 1,
       "position": [
-        -1860,
+        -1880,
         260
       ],
       "id": "d31f68d6-f745-4523-9062-1779f21c2a02",
@@ -38,15 +38,15 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        440,
-        160
+        -2200,
+        860
       ],
       "id": "4b06cf6a-6df6-4817-b057-49c404297018",
       "name": "OpenAI Chat Model",
       "credentials": {
         "openAiApi": {
           "id": "bO0FDG6LZ4XvFpGi",
-          "name": "OpenAi account"
+          "name": "OpenAI"
         }
       }
     },
@@ -61,8 +61,8 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 2,
       "position": [
-        0,
-        0
+        -2620,
+        660
       ],
       "id": "1b3004f6-13c7-4f56-8926-ad699e7fc92a",
       "name": "AI Agent - Summarize Article",
@@ -80,8 +80,8 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 2,
       "position": [
-        0,
-        360
+        -2620,
+        1020
       ],
       "id": "d4f39a78-c268-4a93-bb9b-60c376996dc9",
       "name": "AI Agent - Summarize Comments",
@@ -100,15 +100,15 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        440,
-        540
+        -2200,
+        1220
       ],
       "id": "e3ca0539-107b-4925-9146-c7c4dac2bb68",
       "name": "OpenAI Chat Model1",
       "credentials": {
         "openAiApi": {
           "id": "bO0FDG6LZ4XvFpGi",
-          "name": "OpenAi account"
+          "name": "OpenAI"
         }
       }
     },
@@ -123,8 +123,8 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 2,
       "position": [
-        420,
-        0
+        -2200,
+        660
       ],
       "id": "209f69ff-d4cc-4698-bafa-9903b46dd86d",
       "name": "AI Agent - Translate Article",
@@ -141,8 +141,8 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 2,
       "position": [
-        420,
-        360
+        -2200,
+        1020
       ],
       "id": "47fdc753-797f-44a6-b7a8-523fc3acd1ce",
       "name": "AI Agent - Translate Comments",
@@ -171,8 +171,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        820,
-        280
+        -1800,
+        940
       ],
       "id": "8aac621e-ef25-48be-927f-2e5ff9313ed8",
       "name": "Comment Field Mapping"
@@ -192,6 +192,42 @@
               "name": "guid_key",
               "value": "={{ Number($(\"merge_article_comments\").item.json.guid_key) }}",
               "type": "number"
+            },
+            {
+              "id": "ebf22aa6-b6ea-4c62-a175-b3db2794c7f5",
+              "name": "created_at",
+              "value": "={{ $(\"merge_article_comments\").item.json.isoDate }}",
+              "type": "string"
+            },
+            {
+              "id": "4f51fd9a-050c-46f4-8fab-dbcf7b0401ff",
+              "name": "article_url",
+              "value": "={{ $(\"merge_article_comments\").item.json.link }}",
+              "type": "string"
+            },
+            {
+              "id": "51068c33-e39c-4baf-b853-c19819cc905b",
+              "name": "comment_url",
+              "value": "={{ $(\"merge_article_comments\").item.json.guid }}",
+              "type": "string"
+            },
+            {
+              "id": "6a84dfbf-fb40-4c6d-99fa-a2724be30a5c",
+              "name": "title",
+              "value": "={{ $(\"merge_article_comments\").item.json.title }}",
+              "type": "string"
+            },
+            {
+              "id": "8e5c9918-8ab5-4f7d-b350-0261a13526b6",
+              "name": "num_points",
+              "value": "={{ $(\"merge_article_comments\").item.json.num_points }}",
+              "type": "number"
+            },
+            {
+              "id": "6c4bd2a9-08e5-4609-a07c-9cd580107f46",
+              "name": "num_comments",
+              "value": "={{ $(\"merge_article_comments\").item.json.num_comments }}",
+              "type": "number"
             }
           ]
         },
@@ -200,8 +236,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        820,
-        80
+        -1800,
+        740
       ],
       "id": "518d946b-bc25-4258-a054-9123860746cd",
       "name": "Article Field Mapping"
@@ -209,24 +245,24 @@
     {
       "parameters": {
         "operation": "executeQuery",
-        "query": "SELECT EXISTS(SELECT 1 FROM hn_guid WHERE guid = {{ $json.guid_key }} );\n",
+        "query": "SELECT EXISTS (\n    SELECT 1 FROM public.hn_hot_posts WHERE guid_key = {{ $json.guid_key }}\n);",
         "options": {}
       },
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.6,
       "position": [
-        -1660,
-        140
+        -1700,
+        100
       ],
       "id": "4887ca12-e41d-4489-bf58-fe744971fb80",
       "name": "Check HN guid",
       "credentials": {
         "postgres": {
           "id": "j47X0KPkh8CdhlOE",
-          "name": "Postgres account"
+          "name": "pigsty"
         }
       },
-      "onError": "continueRegularOutput"
+      "onError": "continueErrorOutput"
     },
     {
       "parameters": {
@@ -237,7 +273,7 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3.2,
       "position": [
-        -1480,
+        -1540,
         260
       ],
       "id": "1312c9bc-0e01-4027-a4b6-da368a56f95d",
@@ -246,14 +282,14 @@
     {
       "parameters": {
         "chatId": "-4877294576",
-        "text": "={{ \"📰\\n\" + $(\"merge_article_comments\").item.json.title + \"\\n\" + $(\"merge_article_comments\").item.json.link + \"\\n\\n\" + $json.article_sum + \"\\n\\n评论精选\\n\" + $json.comment_sum }}",
+        "text": "={{ \"📰\\n\" + $json.title + \"\\n\" + $json.article_url + \"\\n\\n\" + $json.article_sum + \"\\n\\n评论精选\\n\" + $json.comment_url + \"\\n\" + $json.comment_sum }}",
         "additionalFields": {}
       },
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        1280,
-        180
+        -1320,
+        840
       ],
       "id": "4eb5cbd4-5c2d-4cb9-89d6-4a05198b71e8",
       "name": "Send to Telegram",
@@ -261,25 +297,10 @@
       "credentials": {
         "telegramApi": {
           "id": "mK7Mgq7wEi8iojVl",
-          "name": "Telegram account"
+          "name": "Telegram hn_sum_bot"
         }
-      }
-    },
-    {
-      "parameters": {
-        "mode": "combine",
-        "fieldsToMatchString": "guid_key",
-        "joinMode": "enrichInput1",
-        "options": {}
       },
-      "type": "n8n-nodes-base.merge",
-      "typeVersion": 3.2,
-      "position": [
-        1060,
-        180
-      ],
-      "id": "0ee1d48e-2f5a-4f79-9a77-1309eb35922d",
-      "name": "Combine Article and Comments"
+      "onError": "continueErrorOutput"
     },
     {
       "parameters": {
@@ -291,23 +312,92 @@
         },
         "table": {
           "__rl": true,
-          "value": "hn_guid",
+          "value": "hn_hot_posts",
           "mode": "list",
-          "cachedResultName": "hn_guid"
+          "cachedResultName": "hn_hot_posts"
         },
         "columns": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "guid": "={{ $json.guid_key }}"
-          },
-          "matchingColumns": [
-            "guid"
-          ],
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [],
           "schema": [
             {
-              "id": "guid",
-              "displayName": "guid",
+              "id": "guid_key",
+              "displayName": "guid_key",
               "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "created_at",
+              "displayName": "created_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "article_url",
+              "displayName": "article_url",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "comment_url",
+              "displayName": "comment_url",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "title",
+              "displayName": "title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "article_sum",
+              "displayName": "article_sum",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "comment_sum",
+              "displayName": "comment_sum",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "num_points",
+              "displayName": "num_points",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "num_comments",
+              "displayName": "num_comments",
+              "required": false,
               "defaultMatch": false,
               "display": true,
               "type": "number",
@@ -323,15 +413,15 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.6,
       "position": [
-        1280,
-        380
+        -1560,
+        1100
       ],
       "id": "8e2db7dc-fe1b-4530-87fb-828857d22997",
       "name": "Add Processed Items to DB",
       "credentials": {
         "postgres": {
           "id": "j47X0KPkh8CdhlOE",
-          "name": "Postgres account"
+          "name": "pigsty"
         }
       },
       "onError": "continueErrorOutput"
@@ -356,8 +446,8 @@
       "type": "n8n-nodes-base.html",
       "typeVersion": 1.2,
       "position": [
-        -780,
-        420
+        -940,
+        300
       ],
       "id": "2cd2db27-b00e-4a0f-84dc-8c9e8256bde6",
       "name": "Extract Comments",
@@ -372,7 +462,7 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -540,
+        -760,
         420
       ],
       "id": "63d9f65f-18aa-418f-bb04-8d3e03048e3b",
@@ -386,7 +476,7 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -2220,
+        -2260,
         260
       ],
       "id": "9d8e9469-907d-4f4d-8c76-f2a826ec1eb7",
@@ -400,7 +490,7 @@
       "type": "n8n-nodes-base.rssFeedRead",
       "typeVersion": 1.2,
       "position": [
-        -2440,
+        -2460,
         260
       ],
       "id": "7ae153d1-4492-498e-b199-9ad9bbc3a820",
@@ -427,7 +517,7 @@
       "type": "n8n-nodes-base.sort",
       "typeVersion": 1,
       "position": [
-        -2040,
+        -2060,
         260
       ],
       "id": "919e1745-b26e-403c-a7e7-07fe3ed3c28f",
@@ -439,7 +529,7 @@
           "interval": [
             {
               "field": "cronExpression",
-              "expression": "47 1,6,9,12,15,17,21 * * *"
+              "expression": "47 1,6,9,12,15,18,21 * * *"
             }
           ]
         }
@@ -465,7 +555,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        -1020,
+        -1120,
         80
       ],
       "id": "89aab879-dcb7-4f50-8530-5ecac2f4a4cd",
@@ -482,7 +572,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        -1020,
+        -1120,
         420
       ],
       "id": "37a95d31-580c-4428-a89f-7be31e8e0fe2",
@@ -509,7 +599,7 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3.2,
       "position": [
-        -540,
+        -760,
         80
       ],
       "id": "0e6c00a7-8645-4da2-82fa-2b32fbf28931",
@@ -526,8 +616,8 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3.2,
       "position": [
-        -300,
-        260
+        -560,
+        440
       ],
       "id": "3e51b82c-81a6-412b-a3ef-b1bc89f11656",
       "name": "merge_article_comments",
@@ -561,7 +651,7 @@
       "type": "n8n-nodes-base.filter",
       "typeVersion": 2.2,
       "position": [
-        -1280,
+        -1340,
         260
       ],
       "id": "2f764542-483f-4624-8f9d-f4ca5b62c226",
@@ -580,15 +670,15 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        0,
-        160
+        -2620,
+        860
       ],
       "id": "54f23946-a18c-472f-8ef1-019037a9626f",
       "name": "OpenAI Sum Article",
       "credentials": {
         "openAiApi": {
           "id": "bO0FDG6LZ4XvFpGi",
-          "name": "OpenAi account"
+          "name": "OpenAI"
         }
       }
     },
@@ -596,24 +686,61 @@
       "parameters": {
         "model": {
           "__rl": true,
-          "value": "gpt-4.1-2025-04-14",
+          "value": "gpt-4.1-mini-2025-04-14",
           "mode": "list",
-          "cachedResultName": "gpt-4.1-2025-04-14"
+          "cachedResultName": "gpt-4.1-mini-2025-04-14"
         },
         "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        0,
-        540
+        -2620,
+        1220
       ],
       "id": "1efe6449-cd00-4add-acec-1fc3cc354909",
       "name": "OpenAI Sum Comments",
       "credentials": {
         "openAiApi": {
           "id": "bO0FDG6LZ4XvFpGi",
-          "name": "OpenAi account"
+          "name": "OpenAI"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "fieldsToMatchString": "guid_key",
+        "joinMode": "enrichInput1",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        -1560,
+        840
+      ],
+      "id": "0ee1d48e-2f5a-4f79-9a77-1309eb35922d",
+      "name": "merge_sums_and_meta"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "DELETE FROM public.hn_hot_posts\nWHERE created_at < NOW() - INTERVAL '14 days';",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        -1320,
+        1100
+      ],
+      "id": "52243942-e808-4846-b4cf-69a6ec666bd6",
+      "name": "Delete Items Older Than 14 Days",
+      "credentials": {
+        "postgres": {
+          "id": "j47X0KPkh8CdhlOE",
+          "name": "pigsty"
         }
       }
     }
@@ -717,7 +844,7 @@
       "main": [
         [
           {
-            "node": "Combine Article and Comments",
+            "node": "merge_sums_and_meta",
             "type": "main",
             "index": 1
           }
@@ -728,7 +855,7 @@
       "main": [
         [
           {
-            "node": "Combine Article and Comments",
+            "node": "merge_sums_and_meta",
             "type": "main",
             "index": 0
           }
@@ -751,22 +878,6 @@
         [
           {
             "node": "process_new_posts_only",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Combine Article and Comments": {
-      "main": [
-        [
-          {
-            "node": "Add Processed Items to DB",
-            "type": "main",
-            "index": 0
-          },
-          {
-            "node": "Send to Telegram",
             "type": "main",
             "index": 0
           }
@@ -930,6 +1041,33 @@
           }
         ]
       ]
+    },
+    "merge_sums_and_meta": {
+      "main": [
+        [
+          {
+            "node": "Add Processed Items to DB",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Send to Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add Processed Items to DB": {
+      "main": [
+        [
+          {
+            "node": "Delete Items Older Than 14 Days",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": true,
@@ -939,7 +1077,7 @@
     "callerPolicy": "workflowsFromSameOwner",
     "executionTimeout": 1200
   },
-  "versionId": "6185bd62-333a-46fe-81ae-70031f788dcc",
+  "versionId": "f757462a-6566-4c98-a0b1-3bb114872c2d",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "1d69bff3c9b0e719648a85e01532acc864f1b907a554b1944bda495df4ffcf66"
@@ -947,10 +1085,10 @@
   "id": "fZBJgxbtPDHlvgJi",
   "tags": [
     {
-      "name": "digest",
-      "id": "NHrXjIMYrSLiIeTq",
       "createdAt": "2025-07-03T02:17:47.628Z",
-      "updatedAt": "2025-07-03T02:17:47.628Z"
+      "updatedAt": "2025-07-03T02:17:47.628Z",
+      "id": "NHrXjIMYrSLiIeTq",
+      "name": "digest"
     }
   ]
 }
