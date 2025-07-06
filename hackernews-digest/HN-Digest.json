@@ -39,7 +39,7 @@
       "typeVersion": 1.2,
       "position": [
         -2200,
-        860
+        840
       ],
       "id": "4b06cf6a-6df6-4817-b057-49c404297018",
       "name": "OpenAI Chat Model",
@@ -55,14 +55,14 @@
         "promptType": "define",
         "text": "={{ $json.data.markdown }}",
         "options": {
-          "systemMessage": "You are an expert article summarizer. Your task is to create a comprehensive yet concise summary of the provided article that captures its key points, main arguments, and significant details.\n\nOutput Requirements:\nCreate a summary with the following characteristics:\n- Please go directly into the content without any introductory phrases.\n- Don't include statements like \"Here's a summary...\" or references to guidelines. Begin immediately with the substantive information.\n- 3 to 7 paragraphs in length, with the number of paragraphs proportional to the article's size and complexity\n- Maintain the original tone and perspective of the article\n- Preserve important terminology and concepts specific to the subject matter\n- Use clear transitions between paragraphs to ensure flow and readability\n- Write in a natural, conversational style. Avoid academic framing phrases like \"The central argument is...\" or \"In conclusion...\"\n- Present the information as a flowing narrative of connected thoughts. Imagine you're explaining this to someone in a casual but informative conversation rather than writing a formal analysis.\n- The total output should not exceed 32768 tokens.\n\nNotes:\n- Do not insert your own opinions or additional information not found in the original text\n- Avoid overly simplifying complex topics while still making them accessible\n- Ensure each paragraph has a clear focus and purpose within the summary\n- For longer, more complex articles, use closer to 7 paragraphs; for shorter, simpler articles, use closer to 3 paragraphs\n- Your summary should allow readers to understand the complete essence of the article without reading the original\n\nInput:\nYou will be provided with a markdown file.\n- Identify the main article content within the markdown file\n- Ignore comments, navigation elements, advertisements, and other non-article content\n- Ignore everything after \"New Yorker Favorites\", \"To stay on top of the biggest stories in business and technology, sign up\"\nThis is the article in markdown format:"
+          "systemMessage": "You are an expert article summarizer. Your task is to create a comprehensive yet concise summary of the provided article that captures its key points, main arguments, and significant details.\n\nOutput Requirements:\nCreate a summary with the following characteristics:\n- Please go directly into the content without any introductory phrases.\n- Don't include statements like \"Here's a summary...\" or references to guidelines. Begin immediately with the substantive information.\n- 3 to 7 paragraphs in length, with the number of paragraphs proportional to the article's size and complexity\n- Maintain the original tone and perspective of the article\n- Preserve important terminology and concepts specific to the subject matter\n- Use clear transitions between paragraphs to ensure flow and readability\n- Write in a natural, conversational style. Avoid academic framing phrases like \"The central argument is...\" or \"In conclusion...\"\n- Present the information as a flowing narrative of connected thoughts. Imagine you're explaining this to someone in a casual but informative conversation rather than writing a formal analysis.\n- Do NOT output markdown, pure text only\n- The total output should not exceed 32768 tokens.\n\nNotes:\n- Do not insert your own opinions or additional information not found in the original text\n- Avoid overly simplifying complex topics while still making them accessible\n- Ensure each paragraph has a clear focus and purpose within the summary\n- For longer, more complex articles, use closer to 7 paragraphs; for shorter, simpler articles, use closer to 3 paragraphs\n- Your summary should allow readers to understand the complete essence of the article without reading the original\n\nInput:\nYou will be provided with a markdown file.\n- Identify the main article content within the markdown file\n- Ignore comments, navigation elements, advertisements, and other non-article content\n- Ignore everything after \"New Yorker Favorites\", \"To stay on top of the biggest stories in business and technology, sign up\"\nThis is the article in markdown format:"
         }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 2,
       "position": [
         -2620,
-        660
+        640
       ],
       "id": "1b3004f6-13c7-4f56-8926-ad699e7fc92a",
       "name": "AI Agent - Summarize Article",
@@ -81,7 +81,7 @@
       "typeVersion": 2,
       "position": [
         -2620,
-        1020
+        1000
       ],
       "id": "d4f39a78-c268-4a93-bb9b-60c376996dc9",
       "name": "AI Agent - Summarize Comments",
@@ -101,7 +101,7 @@
       "typeVersion": 1.2,
       "position": [
         -2200,
-        1220
+        1200
       ],
       "id": "e3ca0539-107b-4925-9146-c7c4dac2bb68",
       "name": "OpenAI Chat Model1",
@@ -117,14 +117,14 @@
         "promptType": "define",
         "text": "=Translate into Chinese: {{ $json.output }} ",
         "options": {
-          "systemMessage": "Role:\nYou are an expert English to Chinese translator.\n\nRules:\n1. Ensuring accuracy and fidelity to the original news facts and context.\n2. All English proper nouns (names, places, terms) will be retained in English.\n3. No information will be omitted, and the translation will be direct and comprehensive.\n4. Never, ever translate names, places, terms into Chinese."
+          "systemMessage": "Role:\nYou are an expert English to Chinese translator.\n\nRules:\n1. Ensuring accuracy and fidelity to the original news facts and context.\n2. All English proper nouns (names, places, terms) will be retained in English.\n3. No information will be omitted, and the translation will be direct and comprehensive.\n4. Never, ever translate names, places, terms into Chinese.\n5. Do NOT output markdown, pure text only"
         }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 2,
       "position": [
         -2200,
-        660
+        640
       ],
       "id": "209f69ff-d4cc-4698-bafa-9903b46dd86d",
       "name": "AI Agent - Translate Article",
@@ -142,7 +142,7 @@
       "typeVersion": 2,
       "position": [
         -2200,
-        1020
+        1000
       ],
       "id": "47fdc753-797f-44a6-b7a8-523fc3acd1ce",
       "name": "AI Agent - Translate Comments",
@@ -172,7 +172,7 @@
       "typeVersion": 3.4,
       "position": [
         -1800,
-        940
+        920
       ],
       "id": "8aac621e-ef25-48be-927f-2e5ff9313ed8",
       "name": "Comment Field Mapping"
@@ -196,7 +196,7 @@
             {
               "id": "ebf22aa6-b6ea-4c62-a175-b3db2794c7f5",
               "name": "created_at",
-              "value": "={{ $(\"merge_article_comments\").item.json.isoDate }}",
+              "value": "={{ new Date().toISOString().slice(0, 19).replace('T', ' ') }}",
               "type": "string"
             },
             {
@@ -237,7 +237,7 @@
       "typeVersion": 3.4,
       "position": [
         -1800,
-        740
+        720
       ],
       "id": "518d946b-bc25-4258-a054-9123860746cd",
       "name": "Article Field Mapping"
@@ -281,15 +281,15 @@
     },
     {
       "parameters": {
-        "chatId": "-4877294576",
-        "text": "={{ \"📰\\n\" + $json.title + \"\\n\" + $json.article_url + \"\\n\\n\" + $json.article_sum + \"\\n\\n评论精选\\n\" + $json.comment_url + \"\\n\" + $json.comment_sum }}",
+        "chatId": "-4969477497",
+        "text": "={{ \"📰\\n\" + $json.title + \"\\n\" + $json.article_url + \"\\n\\n\" + $json.article_sum.match(/.*?\\n/)?.[0].trimEnd() + \"\\n\\n\" + \"https://hn.dreamnet.ca/article/\" + $json.guid_key }}",
         "additionalFields": {}
       },
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        -1320,
-        840
+        -1280,
+        820
       ],
       "id": "4eb5cbd4-5c2d-4cb9-89d6-4a05198b71e8",
       "name": "Send to Telegram",
@@ -414,7 +414,7 @@
       "typeVersion": 2.6,
       "position": [
         -1560,
-        1100
+        1080
       ],
       "id": "8e2db7dc-fe1b-4530-87fb-828857d22997",
       "name": "Add Processed Items to DB",
@@ -529,7 +529,7 @@
           "interval": [
             {
               "field": "cronExpression",
-              "expression": "47 1,6,9,12,15,18,21 * * *"
+              "expression": "21 1,5,8,11,14,17,20,23 * * *"
             }
           ]
         }
@@ -617,7 +617,7 @@
       "typeVersion": 3.2,
       "position": [
         -560,
-        440
+        420
       ],
       "id": "3e51b82c-81a6-412b-a3ef-b1bc89f11656",
       "name": "merge_article_comments",
@@ -671,7 +671,7 @@
       "typeVersion": 1.2,
       "position": [
         -2620,
-        860
+        840
       ],
       "id": "54f23946-a18c-472f-8ef1-019037a9626f",
       "name": "OpenAI Sum Article",
@@ -696,7 +696,7 @@
       "typeVersion": 1.2,
       "position": [
         -2620,
-        1220
+        1200
       ],
       "id": "1efe6449-cd00-4add-acec-1fc3cc354909",
       "name": "OpenAI Sum Comments",
@@ -718,7 +718,7 @@
       "typeVersion": 3.2,
       "position": [
         -1560,
-        840
+        820
       ],
       "id": "0ee1d48e-2f5a-4f79-9a77-1309eb35922d",
       "name": "merge_sums_and_meta"
@@ -726,17 +726,17 @@
     {
       "parameters": {
         "operation": "executeQuery",
-        "query": "DELETE FROM public.hn_hot_posts\nWHERE created_at < NOW() - INTERVAL '14 days';",
+        "query": "DELETE FROM public.hn_hot_posts\nWHERE created_at < NOW() - INTERVAL '10 days';",
         "options": {}
       },
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.6,
       "position": [
-        -1320,
-        1100
+        -1280,
+        1080
       ],
       "id": "52243942-e808-4846-b4cf-69a6ec666bd6",
-      "name": "Delete Items Older Than 14 Days",
+      "name": "Delete Items Older Than 10 Days",
       "credentials": {
         "postgres": {
           "id": "j47X0KPkh8CdhlOE",
@@ -1049,11 +1049,6 @@
             "node": "Add Processed Items to DB",
             "type": "main",
             "index": 0
-          },
-          {
-            "node": "Send to Telegram",
-            "type": "main",
-            "index": 0
           }
         ]
       ]
@@ -1062,7 +1057,12 @@
       "main": [
         [
           {
-            "node": "Delete Items Older Than 14 Days",
+            "node": "Delete Items Older Than 10 Days",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Send to Telegram",
             "type": "main",
             "index": 0
           }
@@ -1077,7 +1077,7 @@
     "callerPolicy": "workflowsFromSameOwner",
     "executionTimeout": 1200
   },
-  "versionId": "f757462a-6566-4c98-a0b1-3bb114872c2d",
+  "versionId": "cfac6282-3b07-4f3d-8cf1-081c4b0a2829",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "1d69bff3c9b0e719648a85e01532acc864f1b907a554b1944bda495df4ffcf66"

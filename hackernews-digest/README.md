@@ -32,10 +32,10 @@ SELECT EXISTS (
 );
 ```
 
-Delete posted articles older than 14 days:
+Delete posted articles older than 10 days:
 ```sql
 DELETE FROM public.hn_hot_posts
-WHERE created_at < NOW() - INTERVAL '14 days';
+WHERE created_at < NOW() - INTERVAL '10 days';
 ```
 
 
