@@ -7,7 +7,7 @@
       "typeVersion": 1,
       "position": [
         -2640,
-        100
+        112
       ],
       "id": "2f4b1104-2ae4-4682-bfbd-a6f9e465a3a1",
       "name": "When clicking ‘Execute workflow’"
@@ -19,8 +19,8 @@
       "type": "n8n-nodes-base.limit",
       "typeVersion": 1,
       "position": [
-        -1880,
-        260
+        -1888,
+        272
       ],
       "id": "d31f68d6-f745-4523-9062-1779f21c2a02",
       "name": "Limit"
@@ -38,8 +38,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        -2200,
-        840
+        -2224,
+        848
       ],
       "id": "4b06cf6a-6df6-4817-b057-49c404297018",
       "name": "OpenAI Chat Model",
@@ -61,7 +61,7 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 2,
       "position": [
-        -2620,
+        -2640,
         640
       ],
       "id": "1b3004f6-13c7-4f56-8926-ad699e7fc92a",
@@ -80,8 +80,8 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 2,
       "position": [
-        -2620,
-        1000
+        -2640,
+        1008
       ],
       "id": "d4f39a78-c268-4a93-bb9b-60c376996dc9",
       "name": "AI Agent - Summarize Comments",
@@ -100,8 +100,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        -2200,
-        1200
+        -2224,
+        1232
       ],
       "id": "e3ca0539-107b-4925-9146-c7c4dac2bb68",
       "name": "OpenAI Chat Model1",
@@ -123,7 +123,7 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 2,
       "position": [
-        -2200,
+        -2224,
         640
       ],
       "id": "209f69ff-d4cc-4698-bafa-9903b46dd86d",
@@ -141,8 +141,8 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 2,
       "position": [
-        -2200,
-        1000
+        -2224,
+        1008
       ],
       "id": "47fdc753-797f-44a6-b7a8-523fc3acd1ce",
       "name": "AI Agent - Translate Comments",
@@ -171,8 +171,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -1800,
-        920
+        -1824,
+        928
       ],
       "id": "8aac621e-ef25-48be-927f-2e5ff9313ed8",
       "name": "Comment Field Mapping"
@@ -236,7 +236,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -1800,
+        -1824,
         720
       ],
       "id": "518d946b-bc25-4258-a054-9123860746cd",
@@ -251,8 +251,8 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.6,
       "position": [
-        -1700,
-        100
+        -1696,
+        112
       ],
       "id": "4887ca12-e41d-4489-bf58-fe744971fb80",
       "name": "Check HN guid",
@@ -273,8 +273,8 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3.2,
       "position": [
-        -1540,
-        260
+        -1536,
+        272
       ],
       "id": "1312c9bc-0e01-4027-a4b6-da368a56f95d",
       "name": "Combine HN guid exists"
@@ -288,8 +288,8 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        -1280,
-        820
+        -1056,
+        736
       ],
       "id": "4eb5cbd4-5c2d-4cb9-89d6-4a05198b71e8",
       "name": "Send to Telegram",
@@ -413,8 +413,8 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.6,
       "position": [
-        -1560,
-        1080
+        -1344,
+        992
       ],
       "id": "8e2db7dc-fe1b-4530-87fb-828857d22997",
       "name": "Add Processed Items to DB",
@@ -446,8 +446,8 @@
       "type": "n8n-nodes-base.html",
       "typeVersion": 1.2,
       "position": [
-        -940,
-        300
+        -944,
+        304
       ],
       "id": "2cd2db27-b00e-4a0f-84dc-8c9e8256bde6",
       "name": "Extract Comments",
@@ -462,8 +462,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -760,
-        420
+        -768,
+        432
       ],
       "id": "63d9f65f-18aa-418f-bb04-8d3e03048e3b",
       "name": "Comments to MD"
@@ -476,8 +476,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -2260,
-        260
+        -2256,
+        272
       ],
       "id": "9d8e9469-907d-4f4d-8c76-f2a826ec1eb7",
       "name": "Add Points and Comments"
@@ -490,8 +490,8 @@
       "type": "n8n-nodes-base.rssFeedRead",
       "typeVersion": 1.2,
       "position": [
-        -2460,
-        260
+        -2464,
+        272
       ],
       "id": "7ae153d1-4492-498e-b199-9ad9bbc3a820",
       "name": "HN Frontpage",
@@ -517,8 +517,8 @@
       "type": "n8n-nodes-base.sort",
       "typeVersion": 1,
       "position": [
-        -2060,
-        260
+        -2064,
+        272
       ],
       "id": "919e1745-b26e-403c-a7e7-07fe3ed3c28f",
       "name": "Sort by Points and Comments"
@@ -538,7 +538,7 @@
       "typeVersion": 1.2,
       "position": [
         -2640,
-        380
+        384
       ],
       "id": "ec561855-e05b-47bc-87ed-42ed5ceea938",
       "name": "Schedule Trigger"
@@ -573,7 +573,7 @@
       "typeVersion": 4.2,
       "position": [
         -1120,
-        420
+        432
       ],
       "id": "37a95d31-580c-4428-a89f-7be31e8e0fe2",
       "name": "Get Comments",
@@ -599,7 +599,7 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3.2,
       "position": [
-        -760,
+        -768,
         80
       ],
       "id": "0e6c00a7-8645-4da2-82fa-2b32fbf28931",
@@ -617,7 +617,7 @@
       "typeVersion": 3.2,
       "position": [
         -560,
-        420
+        432
       ],
       "id": "3e51b82c-81a6-412b-a3ef-b1bc89f11656",
       "name": "merge_article_comments",
@@ -651,8 +651,8 @@
       "type": "n8n-nodes-base.filter",
       "typeVersion": 2.2,
       "position": [
-        -1340,
-        260
+        -1344,
+        272
       ],
       "id": "2f764542-483f-4624-8f9d-f4ca5b62c226",
       "name": "process_new_posts_only"
@@ -670,8 +670,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        -2620,
-        840
+        -2640,
+        848
       ],
       "id": "54f23946-a18c-472f-8ef1-019037a9626f",
       "name": "OpenAI Sum Article",
@@ -695,8 +695,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        -2620,
-        1200
+        -2640,
+        1232
       ],
       "id": "1efe6449-cd00-4add-acec-1fc3cc354909",
       "name": "OpenAI Sum Comments",
@@ -717,8 +717,8 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3.2,
       "position": [
-        -1560,
-        820
+        -1584,
+        736
       ],
       "id": "0ee1d48e-2f5a-4f79-9a77-1309eb35922d",
       "name": "merge_sums_and_meta"
@@ -732,8 +732,8 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.6,
       "position": [
-        -1280,
-        1080
+        -1056,
+        992
       ],
       "id": "52243942-e808-4846-b4cf-69a6ec666bd6",
       "name": "Delete Items Older Than 10 Days",
@@ -741,6 +741,130 @@
         "postgres": {
           "id": "j47X0KPkh8CdhlOE",
           "name": "pigsty"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "668b5955-cb85-4c82-93db-b034d8fa7783",
+              "leftValue": "={{ $json.article_sum }}",
+              "rightValue": "nu",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "5a704eda-e861-4bd2-8126-ba4d44d75374",
+              "leftValue": "={{ $json.comment_sum }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        -1584,
+        992
+      ],
+      "id": "c7270ab8-9c56-4ec1-b854-f161efaf0a56",
+      "name": "no_null_sum"
+    },
+    {
+      "parameters": {
+        "model": "deepseek/deepseek-chat-v3-0324:free",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        -2480,
+        848
+      ],
+      "id": "0f7350af-7643-4f4f-9728-b0ab95c67592",
+      "name": "OpenRouter Chat Model",
+      "credentials": {
+        "openRouterApi": {
+          "id": "X7UEmuXOFicOJovd",
+          "name": "OpenRouter"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "deepseek/deepseek-chat-v3-0324:free",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        -2480,
+        1232
+      ],
+      "id": "cac4163b-b0cb-45e6-add2-f4cd12427df7",
+      "name": "OpenRouter Chat Model1",
+      "credentials": {
+        "openRouterApi": {
+          "id": "X7UEmuXOFicOJovd",
+          "name": "OpenRouter"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "deepseek/deepseek-chat-v3-0324:free",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        -2064,
+        848
+      ],
+      "id": "46fa48d5-9d62-43d9-a30a-a6b45469cc04",
+      "name": "OpenRouter Chat Model2",
+      "credentials": {
+        "openRouterApi": {
+          "id": "X7UEmuXOFicOJovd",
+          "name": "OpenRouter"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "deepseek/deepseek-chat-v3-0324:free",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        -2064,
+        1232
+      ],
+      "id": "0826f54e-5145-4287-b09d-d00e5a2da92d",
+      "name": "OpenRouter Chat Model3",
+      "credentials": {
+        "openRouterApi": {
+          "id": "X7UEmuXOFicOJovd",
+          "name": "OpenRouter"
         }
       }
     }
@@ -1046,7 +1170,7 @@
       "main": [
         [
           {
-            "node": "Add Processed Items to DB",
+            "node": "no_null_sum",
             "type": "main",
             "index": 0
           }
@@ -1068,6 +1192,66 @@
           }
         ]
       ]
+    },
+    "Delete Items Older Than 10 Days": {
+      "main": [
+        []
+      ]
+    },
+    "no_null_sum": {
+      "main": [
+        [
+          {
+            "node": "Add Processed Items to DB",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent - Summarize Article",
+            "type": "ai_languageModel",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent - Summarize Comments",
+            "type": "ai_languageModel",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent - Translate Article",
+            "type": "ai_languageModel",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model3": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent - Translate Comments",
+            "type": "ai_languageModel",
+            "index": 1
+          }
+        ]
+      ]
     }
   },
   "active": true,
@@ -1077,7 +1261,7 @@
     "callerPolicy": "workflowsFromSameOwner",
     "executionTimeout": 1200
   },
-  "versionId": "cfac6282-3b07-4f3d-8cf1-081c4b0a2829",
+  "versionId": "e7c7a821-0c2b-45e4-b935-2f3fad7a9ff0",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "1d69bff3c9b0e719648a85e01532acc864f1b907a554b1944bda495df4ffcf66"
