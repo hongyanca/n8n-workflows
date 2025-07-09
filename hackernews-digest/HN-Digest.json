@@ -787,86 +787,6 @@
       ],
       "id": "c7270ab8-9c56-4ec1-b854-f161efaf0a56",
       "name": "no_null_sum"
-    },
-    {
-      "parameters": {
-        "model": "deepseek/deepseek-chat-v3-0324:free",
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
-      "typeVersion": 1,
-      "position": [
-        -2480,
-        848
-      ],
-      "id": "0f7350af-7643-4f4f-9728-b0ab95c67592",
-      "name": "OpenRouter Chat Model",
-      "credentials": {
-        "openRouterApi": {
-          "id": "X7UEmuXOFicOJovd",
-          "name": "OpenRouter"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "model": "deepseek/deepseek-chat-v3-0324:free",
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
-      "typeVersion": 1,
-      "position": [
-        -2480,
-        1232
-      ],
-      "id": "cac4163b-b0cb-45e6-add2-f4cd12427df7",
-      "name": "OpenRouter Chat Model1",
-      "credentials": {
-        "openRouterApi": {
-          "id": "X7UEmuXOFicOJovd",
-          "name": "OpenRouter"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "model": "deepseek/deepseek-chat-v3-0324:free",
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
-      "typeVersion": 1,
-      "position": [
-        -2064,
-        848
-      ],
-      "id": "46fa48d5-9d62-43d9-a30a-a6b45469cc04",
-      "name": "OpenRouter Chat Model2",
-      "credentials": {
-        "openRouterApi": {
-          "id": "X7UEmuXOFicOJovd",
-          "name": "OpenRouter"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "model": "deepseek/deepseek-chat-v3-0324:free",
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
-      "typeVersion": 1,
-      "position": [
-        -2064,
-        1232
-      ],
-      "id": "0826f54e-5145-4287-b09d-d00e5a2da92d",
-      "name": "OpenRouter Chat Model3",
-      "credentials": {
-        "openRouterApi": {
-          "id": "X7UEmuXOFicOJovd",
-          "name": "OpenRouter"
-        }
-      }
     }
   ],
   "pinData": {},
@@ -1208,50 +1128,6 @@
           }
         ]
       ]
-    },
-    "OpenRouter Chat Model": {
-      "ai_languageModel": [
-        [
-          {
-            "node": "AI Agent - Summarize Article",
-            "type": "ai_languageModel",
-            "index": 1
-          }
-        ]
-      ]
-    },
-    "OpenRouter Chat Model1": {
-      "ai_languageModel": [
-        [
-          {
-            "node": "AI Agent - Summarize Comments",
-            "type": "ai_languageModel",
-            "index": 1
-          }
-        ]
-      ]
-    },
-    "OpenRouter Chat Model2": {
-      "ai_languageModel": [
-        [
-          {
-            "node": "AI Agent - Translate Article",
-            "type": "ai_languageModel",
-            "index": 1
-          }
-        ]
-      ]
-    },
-    "OpenRouter Chat Model3": {
-      "ai_languageModel": [
-        [
-          {
-            "node": "AI Agent - Translate Comments",
-            "type": "ai_languageModel",
-            "index": 1
-          }
-        ]
-      ]
     }
   },
   "active": true,
@@ -1261,7 +1137,7 @@
     "callerPolicy": "workflowsFromSameOwner",
     "executionTimeout": 1200
   },
-  "versionId": "e7c7a821-0c2b-45e4-b935-2f3fad7a9ff0",
+  "versionId": "ba28ce95-da67-4633-ad1b-779b233471ce",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "1d69bff3c9b0e719648a85e01532acc864f1b907a554b1944bda495df4ffcf66"
