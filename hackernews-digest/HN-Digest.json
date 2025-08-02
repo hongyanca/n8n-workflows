@@ -6,10 +6,10 @@
       "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
       "position": [
-        -2640,
-        112
+        0,
+        0
       ],
-      "id": "2f4b1104-2ae4-4682-bfbd-a6f9e465a3a1",
+      "id": "4c4a4a22-b7d7-45f0-91b7-b5db44175bc4",
       "name": "When clicking ‘Execute workflow’"
     },
     {
@@ -19,10 +19,10 @@
       "type": "n8n-nodes-base.limit",
       "typeVersion": 1,
       "position": [
-        -1888,
-        272
+        752,
+        160
       ],
-      "id": "d31f68d6-f745-4523-9062-1779f21c2a02",
+      "id": "44426f0f-d445-4f25-afbb-5461156c6a5d",
       "name": "Limit"
     },
     {
@@ -38,14 +38,14 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        -2224,
-        848
+        416,
+        736
       ],
-      "id": "4b06cf6a-6df6-4817-b057-49c404297018",
+      "id": "4c72c26e-7d46-4e30-8930-79794fde7064",
       "name": "OpenAI Chat Model",
       "credentials": {
         "openAiApi": {
-          "id": "bO0FDG6LZ4XvFpGi",
+          "id": "A88vxk4JWcbobUyq",
           "name": "OpenAI"
         }
       }
@@ -61,10 +61,10 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 2,
       "position": [
-        -2640,
-        640
+        0,
+        528
       ],
-      "id": "1b3004f6-13c7-4f56-8926-ad699e7fc92a",
+      "id": "7a1a500f-7a3b-4957-9c7a-923de58ed885",
       "name": "AI Agent - Summarize Article",
       "alwaysOutputData": false,
       "onError": "continueErrorOutput"
@@ -80,10 +80,10 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 2,
       "position": [
-        -2640,
-        1008
+        0,
+        896
       ],
-      "id": "d4f39a78-c268-4a93-bb9b-60c376996dc9",
+      "id": "c92ba65d-d151-442f-95db-cdf27de43d16",
       "name": "AI Agent - Summarize Comments",
       "onError": "continueErrorOutput"
     },
@@ -100,14 +100,14 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        -2224,
-        1232
+        416,
+        1120
       ],
-      "id": "e3ca0539-107b-4925-9146-c7c4dac2bb68",
+      "id": "b7bc6bf7-71c0-43b2-be4b-d8121227b224",
       "name": "OpenAI Chat Model1",
       "credentials": {
         "openAiApi": {
-          "id": "bO0FDG6LZ4XvFpGi",
+          "id": "A88vxk4JWcbobUyq",
           "name": "OpenAI"
         }
       }
@@ -123,10 +123,10 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 2,
       "position": [
-        -2224,
-        640
+        416,
+        528
       ],
-      "id": "209f69ff-d4cc-4698-bafa-9903b46dd86d",
+      "id": "8035eb39-4566-4c04-9a35-cceacb2cbe1a",
       "name": "AI Agent - Translate Article",
       "onError": "continueErrorOutput"
     },
@@ -141,10 +141,10 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 2,
       "position": [
-        -2224,
-        1008
+        416,
+        896
       ],
-      "id": "47fdc753-797f-44a6-b7a8-523fc3acd1ce",
+      "id": "4cd092b3-6c08-4bb9-90cc-9c1f551c2d5d",
       "name": "AI Agent - Translate Comments",
       "onError": "continueErrorOutput"
     },
@@ -171,10 +171,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -1824,
-        928
+        816,
+        816
       ],
-      "id": "8aac621e-ef25-48be-927f-2e5ff9313ed8",
+      "id": "97837fb1-2d35-48b8-a552-82bda2172a68",
       "name": "Comment Field Mapping"
     },
     {
@@ -236,10 +236,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -1824,
-        720
+        816,
+        608
       ],
-      "id": "518d946b-bc25-4258-a054-9123860746cd",
+      "id": "faea08e4-948b-49f8-b935-751dee09ec39",
       "name": "Article Field Mapping"
     },
     {
@@ -251,15 +251,15 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.6,
       "position": [
-        -1696,
-        112
+        944,
+        0
       ],
-      "id": "4887ca12-e41d-4489-bf58-fe744971fb80",
+      "id": "bd2b0624-fbb5-40ed-acc5-590102c19127",
       "name": "Check HN guid",
       "credentials": {
         "postgres": {
-          "id": "j47X0KPkh8CdhlOE",
-          "name": "pigsty"
+          "id": "FbgBMm49of2MmoS7",
+          "name": "Postgres"
         }
       },
       "onError": "continueErrorOutput"
@@ -273,10 +273,10 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3.2,
       "position": [
-        -1536,
-        272
+        1104,
+        160
       ],
-      "id": "1312c9bc-0e01-4027-a4b6-da368a56f95d",
+      "id": "a13cb512-d638-488a-9cda-986d6915aecc",
       "name": "Combine HN guid exists"
     },
     {
@@ -288,16 +288,16 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        -1056,
-        736
+        1584,
+        624
       ],
-      "id": "4eb5cbd4-5c2d-4cb9-89d6-4a05198b71e8",
+      "id": "424c2cf7-3890-4a38-8e25-6b3a5f1cd85b",
       "name": "Send to Telegram",
       "webhookId": "e9994188-98a7-431d-b3c0-547350044564",
       "credentials": {
         "telegramApi": {
-          "id": "mK7Mgq7wEi8iojVl",
-          "name": "Telegram hn_sum_bot"
+          "id": "Kr0iM6mbzVCe9sPM",
+          "name": "Telegram"
         }
       },
       "onError": "continueErrorOutput"
@@ -413,15 +413,15 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.6,
       "position": [
-        -1344,
-        992
+        1296,
+        880
       ],
-      "id": "8e2db7dc-fe1b-4530-87fb-828857d22997",
+      "id": "86005ca2-8839-44f8-9c7c-7830926af117",
       "name": "Add Processed Items to DB",
       "credentials": {
         "postgres": {
-          "id": "j47X0KPkh8CdhlOE",
-          "name": "pigsty"
+          "id": "FbgBMm49of2MmoS7",
+          "name": "Postgres"
         }
       },
       "onError": "continueErrorOutput"
@@ -446,10 +446,10 @@
       "type": "n8n-nodes-base.html",
       "typeVersion": 1.2,
       "position": [
-        -944,
-        304
+        1696,
+        192
       ],
-      "id": "2cd2db27-b00e-4a0f-84dc-8c9e8256bde6",
+      "id": "ca7a30b8-be62-48fe-92b6-7a301cc01470",
       "name": "Extract Comments",
       "alwaysOutputData": false,
       "onError": "continueErrorOutput"
@@ -462,10 +462,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -768,
-        432
+        1872,
+        320
       ],
-      "id": "63d9f65f-18aa-418f-bb04-8d3e03048e3b",
+      "id": "b3efdfe9-0563-4bef-8ea7-12868a59d2ef",
       "name": "Comments to MD"
     },
     {
@@ -476,10 +476,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -2256,
-        272
+        384,
+        160
       ],
-      "id": "9d8e9469-907d-4f4d-8c76-f2a826ec1eb7",
+      "id": "21b6869b-1558-48f7-a108-7e48541fc08c",
       "name": "Add Points and Comments"
     },
     {
@@ -490,10 +490,10 @@
       "type": "n8n-nodes-base.rssFeedRead",
       "typeVersion": 1.2,
       "position": [
-        -2464,
-        272
+        176,
+        160
       ],
-      "id": "7ae153d1-4492-498e-b199-9ad9bbc3a820",
+      "id": "6d18cefe-a928-4820-832d-eb90100a9ae8",
       "name": "HN Frontpage",
       "notesInFlow": false,
       "notes": "Get the posts that have appeared on the front page."
@@ -517,10 +517,10 @@
       "type": "n8n-nodes-base.sort",
       "typeVersion": 1,
       "position": [
-        -2064,
-        272
+        576,
+        160
       ],
-      "id": "919e1745-b26e-403c-a7e7-07fe3ed3c28f",
+      "id": "a410573a-75ba-487a-bc56-bbce9337a942",
       "name": "Sort by Points and Comments"
     },
     {
@@ -537,10 +537,10 @@
       "type": "n8n-nodes-base.scheduleTrigger",
       "typeVersion": 1.2,
       "position": [
-        -2640,
-        384
+        0,
+        272
       ],
-      "id": "ec561855-e05b-47bc-87ed-42ed5ceea938",
+      "id": "edf86e78-2051-4e3c-9e71-d93da3527364",
       "name": "Schedule Trigger"
     },
     {
@@ -555,10 +555,10 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        -1120,
-        112
+        1520,
+        0
       ],
-      "id": "89aab879-dcb7-4f50-8530-5ecac2f4a4cd",
+      "id": "e9ed2deb-3bc6-4128-959c-ea95c60ca483",
       "name": "Get Article",
       "retryOnFail": true,
       "waitBetweenTries": 3000,
@@ -572,10 +572,10 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        -1120,
-        432
+        1520,
+        320
       ],
-      "id": "37a95d31-580c-4428-a89f-7be31e8e0fe2",
+      "id": "f54387f7-30c4-4cde-9081-83b810ce67a9",
       "name": "Get Comments",
       "retryOnFail": true,
       "waitBetweenTries": 3000,
@@ -599,10 +599,10 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3.2,
       "position": [
-        -768,
-        112
+        1872,
+        0
       ],
-      "id": "0e6c00a7-8645-4da2-82fa-2b32fbf28931",
+      "id": "061a9df4-037a-4232-b77b-2ddc5d2cfeda",
       "name": "Add guid to Article",
       "onError": "continueErrorOutput"
     },
@@ -616,10 +616,10 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3.2,
       "position": [
-        -560,
-        432
+        2080,
+        320
       ],
-      "id": "3e51b82c-81a6-412b-a3ef-b1bc89f11656",
+      "id": "8dab7492-3fa0-4f94-a4df-fc834d30e2c4",
       "name": "merge_article_comments",
       "onError": "continueErrorOutput"
     },
@@ -642,6 +642,15 @@
                 "operation": "false",
                 "singleValue": true
               }
+            },
+            {
+              "id": "89596cca-f898-47d9-9491-430b0796860c",
+              "leftValue": "={{ $json.creator }}",
+              "rightValue": "whoishiring",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
             }
           ],
           "combinator": "and"
@@ -651,10 +660,10 @@
       "type": "n8n-nodes-base.filter",
       "typeVersion": 2.2,
       "position": [
-        -1344,
-        272
+        1296,
+        160
       ],
-      "id": "2f764542-483f-4624-8f9d-f4ca5b62c226",
+      "id": "943fd46d-54a9-4873-9316-68b2bbdac9d5",
       "name": "process_new_posts_only"
     },
     {
@@ -670,14 +679,14 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        -2640,
-        848
+        0,
+        736
       ],
-      "id": "54f23946-a18c-472f-8ef1-019037a9626f",
+      "id": "4e8b256f-0048-446a-b055-8a37312658df",
       "name": "OpenAI Sum Article",
       "credentials": {
         "openAiApi": {
-          "id": "bO0FDG6LZ4XvFpGi",
+          "id": "A88vxk4JWcbobUyq",
           "name": "OpenAI"
         }
       }
@@ -695,14 +704,14 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        -2640,
-        1232
+        0,
+        1120
       ],
-      "id": "1efe6449-cd00-4add-acec-1fc3cc354909",
+      "id": "78454a70-9836-43e6-b506-e0ed1b2dbe5a",
       "name": "OpenAI Sum Comments",
       "credentials": {
         "openAiApi": {
-          "id": "bO0FDG6LZ4XvFpGi",
+          "id": "A88vxk4JWcbobUyq",
           "name": "OpenAI"
         }
       }
@@ -717,10 +726,10 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3.2,
       "position": [
-        -1584,
-        736
+        1056,
+        624
       ],
-      "id": "0ee1d48e-2f5a-4f79-9a77-1309eb35922d",
+      "id": "0047d5de-5d8b-48f6-b417-d278bb81ba17",
       "name": "merge_sums_and_meta"
     },
     {
@@ -732,15 +741,15 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.6,
       "position": [
-        -1056,
-        992
+        1584,
+        880
       ],
-      "id": "52243942-e808-4846-b4cf-69a6ec666bd6",
+      "id": "e35a61f0-d4eb-4f68-bd4f-32bde450236c",
       "name": "Delete Items Older Than 10 Days",
       "credentials": {
         "postgres": {
-          "id": "j47X0KPkh8CdhlOE",
-          "name": "pigsty"
+          "id": "FbgBMm49of2MmoS7",
+          "name": "Postgres"
         }
       }
     },
@@ -782,10 +791,10 @@
       "type": "n8n-nodes-base.filter",
       "typeVersion": 2.2,
       "position": [
-        -1584,
-        992
+        1056,
+        880
       ],
-      "id": "c7270ab8-9c56-4ec1-b854-f161efaf0a56",
+      "id": "5de78aad-8d0c-4597-8f1d-96b24f7d76db",
       "name": "no_null_sum"
     }
   ],
@@ -1113,11 +1122,6 @@
         ]
       ]
     },
-    "Delete Items Older Than 10 Days": {
-      "main": [
-        []
-      ]
-    },
     "no_null_sum": {
       "main": [
         [
@@ -1130,24 +1134,21 @@
       ]
     }
   },
-  "active": true,
+  "active": false,
   "settings": {
-    "executionOrder": "v1",
-    "timezone": "America/Edmonton",
-    "callerPolicy": "workflowsFromSameOwner",
-    "executionTimeout": 1200
+    "executionOrder": "v1"
   },
-  "versionId": "491fb3d0-6880-4772-91e3-aa3c690b95d9",
+  "versionId": "180cb22f-dc08-4b73-b5f3-97b29672bc97",
   "meta": {
     "templateCredsSetupCompleted": true,
-    "instanceId": "1d69bff3c9b0e719648a85e01532acc864f1b907a554b1944bda495df4ffcf66"
+    "instanceId": "392d9b6761ada627dae0b2102a339fd2709629cdb73e6150f8dd7383fb886bfe"
   },
-  "id": "fZBJgxbtPDHlvgJi",
+  "id": "xVBpvZH0IV4S9EgS",
   "tags": [
     {
-      "createdAt": "2025-07-03T02:17:47.628Z",
-      "updatedAt": "2025-07-03T02:17:47.628Z",
-      "id": "NHrXjIMYrSLiIeTq",
+      "createdAt": "2025-08-02T04:45:32.238Z",
+      "updatedAt": "2025-08-02T04:45:32.238Z",
+      "id": "D9EWvpcPwMqnD6kI",
       "name": "digest"
     }
   ]
