@@ -29,9 +29,9 @@
       "parameters": {
         "model": {
           "__rl": true,
-          "value": "gpt-4.1-mini-2025-04-14",
+          "value": "gpt-5-mini-2025-08-07",
           "mode": "list",
-          "cachedResultName": "gpt-4.1-mini-2025-04-14"
+          "cachedResultName": "gpt-5-mini-2025-08-07"
         },
         "options": {}
       },
@@ -91,9 +91,9 @@
       "parameters": {
         "model": {
           "__rl": true,
-          "value": "gpt-4.1-mini-2025-04-14",
+          "value": "gpt-5-mini-2025-08-07",
           "mode": "list",
-          "cachedResultName": "gpt-4.1-mini-2025-04-14"
+          "cachedResultName": "gpt-5-mini-2025-08-07"
         },
         "options": {}
       },
@@ -670,9 +670,9 @@
       "parameters": {
         "model": {
           "__rl": true,
-          "value": "gpt-4.1-mini-2025-04-14",
+          "value": "gpt-5-mini-2025-08-07",
           "mode": "list",
-          "cachedResultName": "gpt-4.1-mini-2025-04-14"
+          "cachedResultName": "gpt-5-mini-2025-08-07"
         },
         "options": {}
       },
@@ -695,9 +695,9 @@
       "parameters": {
         "model": {
           "__rl": true,
-          "value": "gpt-4.1-mini-2025-04-14",
+          "value": "gpt-5-mini-2025-08-07",
           "mode": "list",
-          "cachedResultName": "gpt-4.1-mini-2025-04-14"
+          "cachedResultName": "gpt-5-mini-2025-08-07"
         },
         "options": {}
       },
@@ -1134,11 +1134,11 @@
       ]
     }
   },
-  "active": false,
+  "active": true,
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "180cb22f-dc08-4b73-b5f3-97b29672bc97",
+  "versionId": "6bfc1f06-f912-4edc-ab45-ac4b33c97a02",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "392d9b6761ada627dae0b2102a339fd2709629cdb73e6150f8dd7383fb886bfe"
